@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Log4j2 Base Configuration -->
+<Configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="log4j2.xsd" status="WARN">
+	<!--==== GLOBAL CONFIG / PROPERTIES ====-->
+	<Properties>
+		<!-- Folder where generated log files will be stored -->
+		<Property name="basePath">./logs</Property>
+	</Properties>
+	<!--==== APPENDERS (Where logs will be written) ====-->
+	<Appenders>
+		<!-- Console Appender: Prints logs to terminal output -->
+		<Console name="Console" target="SYSTEM_OUT">
+			<!-- Log format template for console logs -->
+			<PatternLayout
+				pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
+		</Console>
+		<!-- Rolling File Appender:
+             Writes logs to file & rotates daily based on naming pattern -->
+		<RollingFile name="File" fileName="${basePath}/automation.log"
+			filePattern="${basePath}/automation-%d{yyyy-MM-dd}.log">
+			<!-- Format for logs written to file -->
+			<PatternLayout
+				pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
+			<!-- Log file rotates automatically when size reaches 10MB -->
+			<SizeBasedTriggeringPolicy size="10MB" />
+		</RollingFile>
+	</Appenders>
+	<!--==== LOGGER CONFIGURATION (Priorities & Output Mapping) ====-->
+	<Loggers>
+		<!-- Root logger applies globally to application -->
+		<!-- Level can be: trace | debug | info | warn | error | fatal -->
+		<Root level="Debug">
+			<!-- Direct logs to console -->
+			<AppenderRef ref="Console" />
+			<!-- Direct logs to rolling file -->
+			<AppenderRef ref="File" />
+		</Root>
+	</Loggers>
+</Configuration>
